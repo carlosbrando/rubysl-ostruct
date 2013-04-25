@@ -1,4 +1,3 @@
-require File.expand_path('../../../spec_helper', __FILE__)
 require 'ostruct'
 
 ruby_version_is "2.0" do

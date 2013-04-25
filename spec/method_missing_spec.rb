@@ -1,4 +1,3 @@
-require File.expand_path('../../../spec_helper', __FILE__)
 require "ostruct"
 
 describe "OpenStruct#method_missing when called with a method name ending in '='" do
