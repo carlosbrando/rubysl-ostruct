@@ -1,4 +1,3 @@
-require File.expand_path('../../../spec_helper', __FILE__)
 require 'ostruct'
 
 describe "OpenStruct.new when frozen" do
