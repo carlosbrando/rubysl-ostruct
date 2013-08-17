@@ -1,4 +1,4 @@
-# RubySL::OpenStruct
+# Rubysl::Ostruct
 
 TODO: Write a gem description
 
@@ -6,7 +6,7 @@ TODO: Write a gem description
 
 Add this line to your application's Gemfile:
 
-    gem 'rubysl-open_struct'
+    gem 'rubysl-ostruct'
 
 And then execute:
 
@@ -14,7 +14,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install rubysl-open_struct
+    $ gem install rubysl-ostruct
 
 ## Usage
 
@@ -24,6 +24,6 @@ TODO: Write usage instructions here
 
 1. Fork it
 2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Added some feature'`)
+3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
