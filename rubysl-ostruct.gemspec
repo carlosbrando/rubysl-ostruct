@@ -3,7 +3,7 @@ require './lib/rubysl/ostruct/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "rubysl-ostruct"
-  spec.version       = RubySL::Ostruct::VERSION
+  spec.version       = RubySL::OpenStruct::VERSION
   spec.authors       = ["Brian Shirai"]
   spec.email         = ["brixen@gmail.com"]
   spec.description   = %q{Ruby standard library ostruct.}
