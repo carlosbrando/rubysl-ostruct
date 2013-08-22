@@ -1,4 +1,4 @@
-require "rubysl-open_struct/version"
+require "rubysl/ostruct/version"
 
 module RubySL
   module OpenStruct
