@@ -197,6 +197,26 @@ class OpenStruct
     end
   end
 
+  # Returns the value of a member.
+  #
+  #   person = OpenStruct.new('name' => 'John Smith', 'age' => 70)
+  #   person[:age] # => 70, same as ostruct.age
+  #
+  def [](name)
+    @table[name.to_sym]
+  end
+
+  #
+  # Sets the value of a member.
+  #
+  #   person = OpenStruct.new('name' => 'John Smith', 'age' => 70)
+  #   person[:age] = 42 # => equivalent to ostruct.age = 42
+  #   person.age # => 42
+  #
+  def []=(name, value)
+    modifiable[new_ostruct_member(name)] = value
+  end
+
   #
   # Remove the named field from the object. Returning the value that the field
   # contained if it has defined.
