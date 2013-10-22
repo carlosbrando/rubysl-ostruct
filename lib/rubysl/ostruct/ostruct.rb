@@ -67,8 +67,8 @@
 #
 # == Implementation:
 #
-# An OpenStruct utilizes Ruby's method lookup structure to and find and define
-# the necessary methods for properties. This is accomplished through the method
+# An OpenStruct utilizes Ruby's method lookup structure to find and define the
+# necessary methods for properties. This is accomplished through the method
 # method_missing and define_method.
 #
 # This should be a consideration if there is a concern about the performance of
@@ -80,7 +80,8 @@ class OpenStruct
   # Creates a new OpenStruct object.  By default, the resulting OpenStruct
   # object will have no attributes.
   #
-  # The optional +hash+, if given, will generate attributes and values.
+  # The optional +hash+, if given, will generate attributes and values
+  # (can be a Hash, an OpenStruct or a Struct).
   # For example:
   #
   #   require 'ostruct'
@@ -115,22 +116,18 @@ class OpenStruct
   #
   # Converts the OpenStruct to a hash with keys representing
   # each attribute (as symbols) and their corresponding values
+  # Example:
+  #
+  #   require 'ostruct'
+  #   data = OpenStruct.new("country" => "Australia", :population => 20_000_000)
+  #   data.to_h   # => {:country => "Australia", :population => 20000000 }
+  #
   def to_h
     @table.dup
   end
 
   #
-  # Provides marshalling support for use by the Marshal library. Returning the
-  # underlying Hash table that contains the functions defined as the keys and
-  # the values assigned to them.
-  #
-  #    require 'ostruct'
-  #
-  #    person = OpenStruct.new
-  #    person.name = 'John Smith'
-  #    person.age  = 70
-  #
-  #    person.marshal_dump # => { :name => 'John Smith', :age => 70 }
+  # Provides marshalling support for use by the Marshal library.
   #
   def marshal_dump
     @table
@@ -153,8 +150,8 @@ class OpenStruct
   end
 
   #
-  # #modifiable is used internally to check if the OpenStruct is able to be
-  # modified before granting access to the internal Hash table to be augmented.
+  # Used internally to check if the OpenStruct is able to be
+  # modified before granting access to the internal Hash table to be modified.
   #
   def modifiable
     begin
@@ -167,7 +164,7 @@ class OpenStruct
   protected :modifiable
 
   #
-  # new_ostruct_member is used internally to defined properties on the
+  # Used internally to defined properties on the
   # OpenStruct. It does this by using the metaprogramming function
   # define_method for both the getter method and the setter method.
   #
@@ -218,8 +215,8 @@ class OpenStruct
   end
 
   #
-  # Remove the named field from the object. Returning the value that the field
-  # contained if it has defined.
+  # Remove the named field from the object. Returns the value that the field
+  # contained if it was defined.
   #
   #   require 'ostruct'
   #
@@ -266,7 +263,7 @@ class OpenStruct
 
   #
   # Compares this object and +other+ for equality.  An OpenStruct is equal to
-  # +other+ when +other+ is an OpenStruct and the two object's Hash tables are
+  # +other+ when +other+ is an OpenStruct and the two objects' Hash tables are
   # equal.
   #
   def ==(other)
