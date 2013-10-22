@@ -2,20 +2,26 @@ require "ostruct"
 
 describe "OpenStruct#[]=" do
   before :each do
-    @os = OpenStruct.new
+    @os = OpenStruct.new(:bar => 100)
   end
 
-  ruby_bug "redmine:4179", "1.9.2" do
-    ruby_version_is ""..."2.0" do
-      it "raises a NoMethodError" do
-        lambda { @os[:foo] = 2 }.should raise_error(NoMethodError)
-      end
-    end
-    ruby_version_is "2.0" do
-      it "sets the associated value" do
-        @os[:foo] = 42
-        @os.foo.should == 42
-      end
-    end
+  it "sets the associated value using a symbol" do
+    @os[:foo] = 42
+    @os.foo.should == 42
+  end
+
+  it "sets the associated value using a string" do
+    @os["foo"] = 42
+    @os.foo.should == 42
+  end
+
+  it "updates the associated value using a symbol" do
+    @os[:bar] = 42
+    @os.bar.should == 42
+  end
+
+  it "updates the associated value using a string" do
+    @os["bar"] = 42
+    @os.bar.should == 42
   end
 end
