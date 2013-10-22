@@ -30,12 +30,6 @@
 # An OpenStruct employs a Hash internally to store the methods and values and
 # can even be initialized with one:
 #
-#   country_data = { :country => "Australia", :population => 20_000_000 }
-#   australia = OpenStruct.new(country_data)
-#   p australia   # -> <OpenStruct country="Australia" population=20000000>
-#
-# You may also define the hash in the initialization call:
-#
 #   australia = OpenStruct.new(:country => "Australia", :population => 20_000_000)
 #   p australia   # -> <OpenStruct country="Australia" population=20000000>
 #
@@ -90,12 +84,6 @@ class OpenStruct
   #
   #   p data        # -> <OpenStruct country="Australia" population=20000000>
   #
-  # You may also define the hash in the initialization call:
-  #
-  #   australia = OpenStruct.new(:country => "Australia",
-  #                              :population => 20_000_000)
-  #   p australia   # -> <OpenStruct country="Australia" population=20000000>
-  #
   def initialize(hash=nil)
     @table = {}
     if hash
@@ -148,15 +136,7 @@ class OpenStruct
   end
 
   #
-  # Provides marshalling support for use by the Marshal library. Accepting
-  # a Hash of keys and values which will be used to populate the internal table
-  #
-  #    require 'ostruct'
-  #
-  #    event = OpenStruct.new
-  #    hash = { 'time' => Time.now, 'title' => 'Birthday Party' }
-  #    event.marshal_load(hash)
-  #    event.title # => 'Birthday Party'
+  # Provides marshalling support for use by the Marshal library.
   #
   def marshal_load(x)
     @table = x
@@ -196,12 +176,12 @@ class OpenStruct
   def method_missing(mid, *args) # :nodoc:
     mname = mid.id2name
     len = args.length
-    if mname.chomp!('=') && mid != :[]=
+    if mname.chomp!('=')
       if len != 1
         raise ArgumentError, "wrong number of arguments (#{len} for 1)", caller(1)
       end
       modifiable[new_ostruct_member(mname)] = args[0]
-    elsif len == 0 && mid != :[]
+    elsif len == 0
       @table[mid]
     else
       raise NoMethodError, "undefined method `#{mid}' for #{self}", caller(1)
@@ -281,7 +261,24 @@ class OpenStruct
   # equal.
   #
   def ==(other)
-    return false unless(other.kind_of?(OpenStruct))
-    return @table == other.table
+    return false unless other.kind_of?(OpenStruct)
+    @table == other.table
+  end
+
+  #
+  # Compares this object and +other+ for equality.  An OpenStruct is eql? to
+  # +other+ when +other+ is an OpenStruct and the two objects' Hash tables are
+  # eql?.
+  #
+  def eql?(other)
+    return false unless other.kind_of?(OpenStruct)
+    @table.eql?(other.table)
+  end
+
+  # Compute a hash-code for this OpenStruct.
+  # Two hashes with the same content will have the same hash code
+  # (and will be eql?).
+  def hash
+    @table.hash
   end
 end
