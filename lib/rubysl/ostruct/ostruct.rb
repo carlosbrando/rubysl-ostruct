@@ -99,7 +99,7 @@ class OpenStruct
   def initialize(hash=nil)
     @table = {}
     if hash
-      for k,v in hash
+      hash.each_pair do |k, v|
         @table[k.to_sym] = v
         new_ostruct_member(k)
       end
@@ -124,6 +124,20 @@ class OpenStruct
   #
   def to_h
     @table.dup
+  end
+
+  #
+  # Yields all attributes (as a symbol) along with the corresponding values
+  # or returns an enumerator if not block is given.
+  # Example:
+  #
+  #   require 'ostruct'
+  #   data = OpenStruct.new("country" => "Australia", :population => 20_000_000)
+  #   data.each_pair.to_a  # => [[:country, "Australia"], [:population, 20000000]]
+  #
+  def each_pair
+    return to_enum __method__ unless block_given?
+    @table.each_pair { |p| yield p }
   end
 
   #
