@@ -160,18 +160,17 @@ class OpenStruct
   #
   # Used internally to defined properties on the
   # OpenStruct. It does this by using the metaprogramming function
-  # define_method for both the getter method and the setter method.
+  # define_singleton_method for both the getter method and the setter method.
   #
   def new_ostruct_member(name)
     name = name.to_sym
-    unless self.respond_to?(name)
-      class << self; self; end.class_eval do
-        define_method(name) { @table[name] }
-        define_method("#{name}=") { |x| modifiable[name] = x }
-      end
+    unless respond_to?(name)
+      define_singleton_method(name) { @table[name] }
+      define_singleton_method("#{name}=") { |x| modifiable[name] = x }
     end
     name
   end
+  protected :new_ostruct_member
 
   def method_missing(mid, *args) # :nodoc:
     mname = mid.id2name
@@ -220,8 +219,8 @@ class OpenStruct
   #
   def delete_field(name)
     sym = name.to_sym
-    @table.delete sym
     singleton_class.__send__(:remove_method, sym, "#{name}=")
+    @table.delete sym
   end
 
   InspectKey = :__inspect_key__ # :nodoc:
